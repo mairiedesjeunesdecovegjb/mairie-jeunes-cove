@@ -1,0 +1,62 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "Bzui3VstDu5FjpN6fiWF1"
+uri = "file://artifacts/mairie-jeunes-cove/src/assets/seed/hero-1.png"
+type = "image"
+title = "Hero slide 1"
+
+[[generated]]
+id = "brJoYlHvdPkRz0RpgKo0u"
+uri = "file://artifacts/mairie-jeunes-cove/src/assets/seed/hero-2.png"
+type = "image"
+title = "Hero slide 2"
+
+[[generated]]
+id = "B4ceTfQB7RDKAuFcy0lzi"
+uri = "file://artifacts/mairie-jeunes-cove/src/assets/seed/hero-3.png"
+type = "image"
+title = "Hero slide 3"
+
+[[generated]]
+id = "_YNS81Z7VG-oDJKeH8j4U"
+uri = "file://artifacts/mairie-jeunes-cove/src/assets/seed/mayor.png"
+type = "image"
+title = "Mayor portrait"
+
+[[generated]]
+id = "1PbooWG5EjTKDYfejXLjb"
+uri = "file://artifacts/mairie-jeunes-cove/src/assets/seed/team-1.png"
+type = "image"
+title = "Team member 1"
+
+[[generated]]
+id = "49L34JFitq9BG86BqwdBF"
+uri = "file://artifacts/mairie-jeunes-cove/src/assets/seed/team-2.png"
+type = "image"
+title = "Team member 2"
+
+[[generated]]
+id = "mWaDpoduxiNh3R_Yl_id0"
+uri = "file://artifacts/mairie-jeunes-cove/src/assets/seed/project-1.png"
+type = "image"
+title = "Project 1"
+
+[[generated]]
+id = "6fSax4kCWpI9fBIpbnAB1"
+uri = "file://artifacts/mairie-jeunes-cove/src/assets/seed/news-1.png"
+type = "image"
+title = "News 1"
+
+[[generated]]
+id = "sRF2DHydbAA5c-XHk_8Qp"
+uri = "file://artifacts/mairie-jeunes-cove/src/assets/seed/gallery-1.png"
+type = "image"
+title = "Gallery 1"
+
+[[generated]]
+id = "Nr2L8Hp6n7gyyn2M0YbSI"
+uri = "file://artifacts/mairie-jeunes-cove/src/assets/seed/about-hero.png"
+type = "image"
+title = "About hero"

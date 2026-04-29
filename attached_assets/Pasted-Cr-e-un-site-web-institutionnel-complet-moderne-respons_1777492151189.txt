@@ -1,0 +1,157 @@
+Crée un site web institutionnel complet, moderne, responsive et sécurisé pour la **Mairie des Jeunes de Covè (Bénin)** avec un panneau d’administration caché.
+
+## OBJECTIF
+Créer une plateforme officielle élégante qui présente la mairie des jeunes, ses activités, son équipe, ses projets et ses actualités.
+
+## TECHNOLOGIES À UTILISER
+- Frontend : React + Tailwind CSS + Framer Motion
+- Backend : Node.js + Express
+- Base de données : PostgreSQL ou SQLite
+- Authentification admin sécurisée avec session + mot de passe hashé
+- Upload images local ou cloudinary
+- Site responsive mobile / tablette / desktop
+
+## EXIGENCE MAJEURE
+TOUT le contenu du site doit être modifiable depuis l’espace administrateur :
+
+- textes
+- titres
+- slogans
+- photos
+- sliders
+- équipe municipale
+- projets
+- événements
+- actualités
+- contacts
+- réseaux sociaux
+- partenaires
+- logo
+- couleurs du site
+
+## ADMIN PANEL (TRÈS IMPORTANT)
+- Le bouton admin ne doit PAS être visible sur le site public
+- L’accès admin doit être via URL privée uniquement :
+/secure-admin-cove-login
+
+- Après connexion :
+dashboard complet avec sidebar :
+
+1. Modifier page accueil
+2. Gérer Hero Slider
+3. Gérer équipe municipale
+4. Ajouter / modifier projets
+5. Ajouter actualités
+6. Gérer galerie photos
+7. Gérer agenda événements
+8. Modifier contacts
+9. Modifier couleurs / logo
+10. Paramètres sécurité
+11. Déconnexion
+
+## PAGE ACCUEIL (IMPORTANT)
+Créer une page d’accueil premium avec :
+
+### HERO SECTION
+Grand Hero Slider animé plein écran avec :
+
+- photos qui défilent automatiquement
+- transitions fluides premium
+- texte superposé dynamique
+- effet zoom léger sur image
+- bouton call to action
+
+Exemple de slides :
+
+1. Jeunesse engagée pour Covè
+2. Construisons l’avenir ensemble
+3. Leadership - Innovation - Action
+
+Ajouter overlay sombre élégant sur images.
+
+### Sous Hero :
+- Mot du Maire des jeunes
+- chiffres clés :
+  500 jeunes mobilisés
+  20 activités
+  10 projets
+- dernières actualités
+- prochains événements
+- galerie photos
+- partenaires
+- footer élégant
+
+## PAGES À CRÉER
+
+1. Accueil
+2. À propos
+3. Cabinet municipal jeune
+4. Nos projets
+5. Actualités
+6. Agenda
+7. Galerie
+8. Opportunités jeunes
+9. Contact
+
+## DESIGN
+Style institutionnel premium :
+
+Couleurs :
+- Vert moderne
+- Blanc
+- Bleu élégant
+
+UI :
+- très moderne
+- animations fluides
+- cartes premium
+- ombres douces
+- coins arrondis
+- typographie forte
+
+## SÉCURITÉ
+- mot de passe hashé bcrypt
+- protection brute force login
+- admin route cachée
+- validation formulaire
+- upload sécurisé
+- session timeout
+
+## BONUS IMPORTANT
+Créer système simple SEO :
+
+- titres pages modifiables
+- meta descriptions modifiables
+
+## BASE DE DONNÉES
+Créer tables :
+
+users_admin
+hero_slides
+pages_content
+team_members
+projects
+news
+events
+gallery
+partners
+settings
+
+## LIVRER
+Projet prêt à lancer avec structure claire :
+
+client/
+server/
+database/
+
+## PRIORITÉ VISUELLE
+Le site doit ressembler à un vrai site gouvernemental moderne africain, crédible, puissant et élégant.
+
+## NOM DU SITE
+Mairie des Jeunes de Covè
+
+## FOOTER
+© 2026 Mairie des Jeunes de Covè - Tous droits réservés, Conçu par Builvision Group
+
+## IMPORTANT
+Coder proprement, professionnellement, sans bugs, prêt pour mise en ligne.

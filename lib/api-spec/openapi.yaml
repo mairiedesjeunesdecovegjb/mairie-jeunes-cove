@@ -3,20 +3,45 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: API specification for Mairie des Jeunes de Covè CMS
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: auth
+    description: Admin authentication
+  - name: settings
+    description: Site settings, branding, colors, SEO
+  - name: hero
+    description: Hero slider management
+  - name: pages
+    description: Page content (Accueil, À propos, etc.)
+  - name: team
+    description: Team / Cabinet municipal members
+  - name: projects
+    description: Projects management
+  - name: news
+    description: News articles
+  - name: events
+    description: Calendar events
+  - name: gallery
+    description: Photo gallery
+  - name: partners
+    description: Partners management
+  - name: opportunities
+    description: Youth opportunities
+  - name: contact
+    description: Contact form & messages
+  - name: stats
+    description: Dashboard summary statistics
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +49,801 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  # ===== AUTH =====
+  /auth/login:
+    post:
+      operationId: adminLogin
+      tags: [auth]
+      summary: Admin login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginBody"
+      responses:
+        "200":
+          description: Login OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthUser"
+        "401":
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          description: Too many attempts
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /auth/logout:
+    post:
+      operationId: adminLogout
+      tags: [auth]
+      summary: Admin logout
+      responses:
+        "204":
+          description: Logged out
+  /auth/me:
+    get:
+      operationId: getCurrentAdmin
+      tags: [auth]
+      summary: Get current admin session
+      responses:
+        "200":
+          description: Current session
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthUser"
+        "401":
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /auth/change-password:
+    post:
+      operationId: changeAdminPassword
+      tags: [auth]
+      summary: Change admin password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChangePasswordBody"
+      responses:
+        "204":
+          description: Password changed
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Not authorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  # ===== SETTINGS =====
+  /settings:
+    get:
+      operationId: getSettings
+      tags: [settings]
+      summary: Get site settings (public)
+      responses:
+        "200":
+          description: Site settings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SiteSettings"
+    patch:
+      operationId: updateSettings
+      tags: [settings]
+      summary: Update site settings (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SettingsUpdateInput"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SiteSettings"
+
+  # ===== HERO SLIDES =====
+  /hero-slides:
+    get:
+      operationId: listHeroSlides
+      tags: [hero]
+      summary: List hero slides
+      responses:
+        "200":
+          description: Hero slides
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/HeroSlide"
+    post:
+      operationId: createHeroSlide
+      tags: [hero]
+      summary: Create hero slide (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HeroSlideInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HeroSlide"
+  /hero-slides/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    patch:
+      operationId: updateHeroSlide
+      tags: [hero]
+      summary: Update hero slide (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HeroSlideInput"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HeroSlide"
+    delete:
+      operationId: deleteHeroSlide
+      tags: [hero]
+      summary: Delete hero slide (admin)
+      responses:
+        "204":
+          description: Deleted
+
+  # ===== PAGES CONTENT =====
+  /pages:
+    get:
+      operationId: listPages
+      tags: [pages]
+      summary: List all page contents
+      responses:
+        "200":
+          description: Pages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PageContent"
+  /pages/{slug}:
+    parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getPage
+      tags: [pages]
+      summary: Get page content by slug
+      responses:
+        "200":
+          description: Page content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PageContent"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    patch:
+      operationId: updatePage
+      tags: [pages]
+      summary: Update page content (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PageContentInput"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PageContent"
+
+  # ===== TEAM =====
+  /team:
+    get:
+      operationId: listTeam
+      tags: [team]
+      summary: List team members
+      responses:
+        "200":
+          description: Team members
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TeamMember"
+    post:
+      operationId: createTeamMember
+      tags: [team]
+      summary: Create team member (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TeamMemberInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TeamMember"
+  /team/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    patch:
+      operationId: updateTeamMember
+      tags: [team]
+      summary: Update team member (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TeamMemberInput"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TeamMember"
+    delete:
+      operationId: deleteTeamMember
+      tags: [team]
+      summary: Delete team member (admin)
+      responses:
+        "204":
+          description: Deleted
+
+  # ===== PROJECTS =====
+  /projects:
+    get:
+      operationId: listProjects
+      tags: [projects]
+      summary: List projects
+      responses:
+        "200":
+          description: Projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Project"
+    post:
+      operationId: createProject
+      tags: [projects]
+      summary: Create project (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProjectInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+  /projects/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      operationId: getProject
+      tags: [projects]
+      summary: Get project
+      responses:
+        "200":
+          description: Project
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    patch:
+      operationId: updateProject
+      tags: [projects]
+      summary: Update project (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProjectInput"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+    delete:
+      operationId: deleteProject
+      tags: [projects]
+      summary: Delete project (admin)
+      responses:
+        "204":
+          description: Deleted
+
+  # ===== NEWS =====
+  /news:
+    get:
+      operationId: listNews
+      tags: [news]
+      summary: List news articles
+      responses:
+        "200":
+          description: News
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/NewsArticle"
+    post:
+      operationId: createNews
+      tags: [news]
+      summary: Create news article (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewsInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NewsArticle"
+  /news/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      operationId: getNews
+      tags: [news]
+      summary: Get news article
+      responses:
+        "200":
+          description: Article
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NewsArticle"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    patch:
+      operationId: updateNews
+      tags: [news]
+      summary: Update news (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewsInput"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NewsArticle"
+    delete:
+      operationId: deleteNews
+      tags: [news]
+      summary: Delete news (admin)
+      responses:
+        "204":
+          description: Deleted
+
+  # ===== EVENTS =====
+  /events:
+    get:
+      operationId: listEvents
+      tags: [events]
+      summary: List events
+      responses:
+        "200":
+          description: Events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EventItem"
+    post:
+      operationId: createEvent
+      tags: [events]
+      summary: Create event (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EventInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EventItem"
+  /events/upcoming:
+    get:
+      operationId: listUpcomingEvents
+      tags: [events]
+      summary: List upcoming events
+      responses:
+        "200":
+          description: Upcoming events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EventItem"
+  /events/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    patch:
+      operationId: updateEvent
+      tags: [events]
+      summary: Update event (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EventInput"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EventItem"
+    delete:
+      operationId: deleteEvent
+      tags: [events]
+      summary: Delete event (admin)
+      responses:
+        "204":
+          description: Deleted
+
+  # ===== GALLERY =====
+  /gallery:
+    get:
+      operationId: listGallery
+      tags: [gallery]
+      summary: List gallery photos
+      responses:
+        "200":
+          description: Gallery
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GalleryPhoto"
+    post:
+      operationId: createGalleryPhoto
+      tags: [gallery]
+      summary: Add photo (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GalleryPhotoInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GalleryPhoto"
+  /gallery/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    patch:
+      operationId: updateGalleryPhoto
+      tags: [gallery]
+      summary: Update photo (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GalleryPhotoInput"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GalleryPhoto"
+    delete:
+      operationId: deleteGalleryPhoto
+      tags: [gallery]
+      summary: Delete photo (admin)
+      responses:
+        "204":
+          description: Deleted
+
+  # ===== PARTNERS =====
+  /partners:
+    get:
+      operationId: listPartners
+      tags: [partners]
+      summary: List partners
+      responses:
+        "200":
+          description: Partners
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Partner"
+    post:
+      operationId: createPartner
+      tags: [partners]
+      summary: Create partner (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PartnerInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Partner"
+  /partners/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    patch:
+      operationId: updatePartner
+      tags: [partners]
+      summary: Update partner (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PartnerInput"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Partner"
+    delete:
+      operationId: deletePartner
+      tags: [partners]
+      summary: Delete partner (admin)
+      responses:
+        "204":
+          description: Deleted
+
+  # ===== OPPORTUNITIES =====
+  /opportunities:
+    get:
+      operationId: listOpportunities
+      tags: [opportunities]
+      summary: List youth opportunities
+      responses:
+        "200":
+          description: Opportunities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Opportunity"
+    post:
+      operationId: createOpportunity
+      tags: [opportunities]
+      summary: Create opportunity (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OpportunityInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Opportunity"
+  /opportunities/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    patch:
+      operationId: updateOpportunity
+      tags: [opportunities]
+      summary: Update opportunity (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OpportunityInput"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Opportunity"
+    delete:
+      operationId: deleteOpportunity
+      tags: [opportunities]
+      summary: Delete opportunity (admin)
+      responses:
+        "204":
+          description: Deleted
+
+  # ===== CONTACT =====
+  /contact:
+    post:
+      operationId: submitContact
+      tags: [contact]
+      summary: Submit contact form
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContactInput"
+      responses:
+        "201":
+          description: Submitted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContactMessage"
+  /contact/messages:
+    get:
+      operationId: listContactMessages
+      tags: [contact]
+      summary: List contact messages (admin)
+      responses:
+        "200":
+          description: Messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ContactMessage"
+  /contact/messages/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    delete:
+      operationId: deleteContactMessage
+      tags: [contact]
+      summary: Delete message (admin)
+      responses:
+        "204":
+          description: Deleted
+
+  # ===== STATS =====
+  /stats/summary:
+    get:
+      operationId: getDashboardSummary
+      tags: [stats]
+      summary: Dashboard counts (admin)
+      responses:
+        "200":
+          description: Summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardSummary"
+
 components:
   schemas:
     HealthStatus:
@@ -31,6 +851,422 @@ components:
       properties:
         status:
           type: string
-      required:
-        - status
+      required: [status]
 
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required: [error]
+
+    LoginBody:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      required: [username, password]
+
+    AuthUser:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+      required: [id, username]
+
+    ChangePasswordBody:
+      type: object
+      properties:
+        currentPassword:
+          type: string
+        newPassword:
+          type: string
+          minLength: 8
+      required: [currentPassword, newPassword]
+
+    SiteSettings:
+      type: object
+      properties:
+        siteName: { type: string }
+        tagline: { type: string }
+        logoUrl: { type: string }
+        faviconUrl: { type: string }
+        primaryColor: { type: string }
+        secondaryColor: { type: string }
+        accentColor: { type: string }
+        contactEmail: { type: string }
+        contactPhone: { type: string }
+        contactAddress: { type: string }
+        facebookUrl: { type: string }
+        twitterUrl: { type: string }
+        instagramUrl: { type: string }
+        linkedinUrl: { type: string }
+        youtubeUrl: { type: string }
+        tiktokUrl: { type: string }
+        whatsappNumber: { type: string }
+        seoTitle: { type: string }
+        seoDescription: { type: string }
+        seoKeywords: { type: string }
+        ogImageUrl: { type: string }
+        statYouthCount: { type: integer }
+        statActivitiesCount: { type: integer }
+        statProjectsCount: { type: integer }
+        statPartnersCount: { type: integer }
+        statYouthLabel: { type: string }
+        statActivitiesLabel: { type: string }
+        statProjectsLabel: { type: string }
+        statPartnersLabel: { type: string }
+        mayorName: { type: string }
+        mayorTitle: { type: string }
+        mayorMessage: { type: string }
+        mayorPhotoUrl: { type: string }
+        footerText: { type: string }
+      required:
+        - siteName
+        - tagline
+        - primaryColor
+        - secondaryColor
+        - accentColor
+        - statYouthCount
+        - statActivitiesCount
+        - statProjectsCount
+        - statPartnersCount
+
+    SettingsUpdateInput:
+      type: object
+      properties:
+        siteName: { type: string }
+        tagline: { type: string }
+        logoUrl: { type: string }
+        faviconUrl: { type: string }
+        primaryColor: { type: string }
+        secondaryColor: { type: string }
+        accentColor: { type: string }
+        contactEmail: { type: string }
+        contactPhone: { type: string }
+        contactAddress: { type: string }
+        facebookUrl: { type: string }
+        twitterUrl: { type: string }
+        instagramUrl: { type: string }
+        linkedinUrl: { type: string }
+        youtubeUrl: { type: string }
+        tiktokUrl: { type: string }
+        whatsappNumber: { type: string }
+        seoTitle: { type: string }
+        seoDescription: { type: string }
+        seoKeywords: { type: string }
+        ogImageUrl: { type: string }
+        statYouthCount: { type: integer }
+        statActivitiesCount: { type: integer }
+        statProjectsCount: { type: integer }
+        statPartnersCount: { type: integer }
+        statYouthLabel: { type: string }
+        statActivitiesLabel: { type: string }
+        statProjectsLabel: { type: string }
+        statPartnersLabel: { type: string }
+        mayorName: { type: string }
+        mayorTitle: { type: string }
+        mayorMessage: { type: string }
+        mayorPhotoUrl: { type: string }
+        footerText: { type: string }
+
+    HeroSlide:
+      type: object
+      properties:
+        id: { type: integer }
+        title: { type: string }
+        subtitle: { type: string }
+        ctaLabel: { type: string }
+        ctaUrl: { type: string }
+        imageUrl: { type: string }
+        sortOrder: { type: integer }
+        active: { type: boolean }
+      required: [id, title, imageUrl, sortOrder, active]
+
+    HeroSlideInput:
+      type: object
+      properties:
+        title: { type: string }
+        subtitle: { type: string }
+        ctaLabel: { type: string }
+        ctaUrl: { type: string }
+        imageUrl: { type: string }
+        sortOrder: { type: integer }
+        active: { type: boolean }
+      required: [title, imageUrl]
+
+    PageContent:
+      type: object
+      properties:
+        id: { type: integer }
+        slug: { type: string }
+        title: { type: string }
+        heading: { type: string }
+        subheading: { type: string }
+        body: { type: string }
+        heroImageUrl: { type: string }
+        seoTitle: { type: string }
+        seoDescription: { type: string }
+      required: [id, slug, title]
+
+    PageContentInput:
+      type: object
+      properties:
+        title: { type: string }
+        heading: { type: string }
+        subheading: { type: string }
+        body: { type: string }
+        heroImageUrl: { type: string }
+        seoTitle: { type: string }
+        seoDescription: { type: string }
+
+    TeamMember:
+      type: object
+      properties:
+        id: { type: integer }
+        fullName: { type: string }
+        role: { type: string }
+        bio: { type: string }
+        photoUrl: { type: string }
+        email: { type: string }
+        phone: { type: string }
+        facebookUrl: { type: string }
+        linkedinUrl: { type: string }
+        sortOrder: { type: integer }
+      required: [id, fullName, role, sortOrder]
+
+    TeamMemberInput:
+      type: object
+      properties:
+        fullName: { type: string }
+        role: { type: string }
+        bio: { type: string }
+        photoUrl: { type: string }
+        email: { type: string }
+        phone: { type: string }
+        facebookUrl: { type: string }
+        linkedinUrl: { type: string }
+        sortOrder: { type: integer }
+      required: [fullName, role]
+
+    Project:
+      type: object
+      properties:
+        id: { type: integer }
+        title: { type: string }
+        category: { type: string }
+        description: { type: string }
+        body: { type: string }
+        imageUrl: { type: string }
+        status: { type: string, enum: [planned, ongoing, completed] }
+        startDate: { type: string }
+        endDate: { type: string }
+        location: { type: string }
+        budget: { type: string }
+        progress: { type: integer }
+        featured: { type: boolean }
+        createdAt: { type: string, format: date-time }
+      required: [id, title, status, createdAt]
+
+    ProjectInput:
+      type: object
+      properties:
+        title: { type: string }
+        category: { type: string }
+        description: { type: string }
+        body: { type: string }
+        imageUrl: { type: string }
+        status: { type: string, enum: [planned, ongoing, completed] }
+        startDate: { type: string }
+        endDate: { type: string }
+        location: { type: string }
+        budget: { type: string }
+        progress: { type: integer }
+        featured: { type: boolean }
+      required: [title, status]
+
+    NewsArticle:
+      type: object
+      properties:
+        id: { type: integer }
+        slug: { type: string }
+        title: { type: string }
+        excerpt: { type: string }
+        body: { type: string }
+        coverImageUrl: { type: string }
+        author: { type: string }
+        category: { type: string }
+        published: { type: boolean }
+        publishedAt: { type: string, format: date-time }
+        createdAt: { type: string, format: date-time }
+      required: [id, slug, title, published, createdAt]
+
+    NewsInput:
+      type: object
+      properties:
+        slug: { type: string }
+        title: { type: string }
+        excerpt: { type: string }
+        body: { type: string }
+        coverImageUrl: { type: string }
+        author: { type: string }
+        category: { type: string }
+        published: { type: boolean }
+        publishedAt: { type: string, format: date-time }
+      required: [title]
+
+    EventItem:
+      type: object
+      properties:
+        id: { type: integer }
+        title: { type: string }
+        description: { type: string }
+        location: { type: string }
+        startsAt: { type: string, format: date-time }
+        endsAt: { type: string, format: date-time }
+        imageUrl: { type: string }
+        category: { type: string }
+        featured: { type: boolean }
+      required: [id, title, startsAt]
+
+    EventInput:
+      type: object
+      properties:
+        title: { type: string }
+        description: { type: string }
+        location: { type: string }
+        startsAt: { type: string, format: date-time }
+        endsAt: { type: string, format: date-time }
+        imageUrl: { type: string }
+        category: { type: string }
+        featured: { type: boolean }
+      required: [title, startsAt]
+
+    GalleryPhoto:
+      type: object
+      properties:
+        id: { type: integer }
+        title: { type: string }
+        description: { type: string }
+        imageUrl: { type: string }
+        category: { type: string }
+        sortOrder: { type: integer }
+        createdAt: { type: string, format: date-time }
+      required: [id, imageUrl, sortOrder, createdAt]
+
+    GalleryPhotoInput:
+      type: object
+      properties:
+        title: { type: string }
+        description: { type: string }
+        imageUrl: { type: string }
+        category: { type: string }
+        sortOrder: { type: integer }
+      required: [imageUrl]
+
+    Partner:
+      type: object
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        logoUrl: { type: string }
+        websiteUrl: { type: string }
+        description: { type: string }
+        sortOrder: { type: integer }
+      required: [id, name, sortOrder]
+
+    PartnerInput:
+      type: object
+      properties:
+        name: { type: string }
+        logoUrl: { type: string }
+        websiteUrl: { type: string }
+        description: { type: string }
+        sortOrder: { type: integer }
+      required: [name]
+
+    Opportunity:
+      type: object
+      properties:
+        id: { type: integer }
+        title: { type: string }
+        category: { type: string }
+        description: { type: string }
+        body: { type: string }
+        imageUrl: { type: string }
+        deadline: { type: string }
+        applyUrl: { type: string }
+        location: { type: string }
+        organization: { type: string }
+        published: { type: boolean }
+        createdAt: { type: string, format: date-time }
+      required: [id, title, published, createdAt]
+
+    OpportunityInput:
+      type: object
+      properties:
+        title: { type: string }
+        category: { type: string }
+        description: { type: string }
+        body: { type: string }
+        imageUrl: { type: string }
+        deadline: { type: string }
+        applyUrl: { type: string }
+        location: { type: string }
+        organization: { type: string }
+        published: { type: boolean }
+      required: [title]
+
+    ContactInput:
+      type: object
+      properties:
+        fullName: { type: string }
+        email: { type: string }
+        phone: { type: string }
+        subject: { type: string }
+        message: { type: string }
+      required: [fullName, email, subject, message]
+
+    ContactMessage:
+      type: object
+      properties:
+        id: { type: integer }
+        fullName: { type: string }
+        email: { type: string }
+        phone: { type: string }
+        subject: { type: string }
+        message: { type: string }
+        read: { type: boolean }
+        createdAt: { type: string, format: date-time }
+      required: [id, fullName, email, subject, message, read, createdAt]
+
+    DashboardSummary:
+      type: object
+      properties:
+        heroSlidesCount: { type: integer }
+        teamCount: { type: integer }
+        projectsCount: { type: integer }
+        newsCount: { type: integer }
+        eventsCount: { type: integer }
+        upcomingEventsCount: { type: integer }
+        galleryCount: { type: integer }
+        partnersCount: { type: integer }
+        opportunitiesCount: { type: integer }
+        unreadMessagesCount: { type: integer }
+        totalMessagesCount: { type: integer }
+      required:
+        - heroSlidesCount
+        - teamCount
+        - projectsCount
+        - newsCount
+        - eventsCount
+        - upcomingEventsCount
+        - galleryCount
+        - partnersCount
+        - opportunitiesCount
+        - unreadMessagesCount
+        - totalMessagesCount
