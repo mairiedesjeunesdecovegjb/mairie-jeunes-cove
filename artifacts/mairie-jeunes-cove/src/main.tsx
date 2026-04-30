@@ -8,4 +8,13 @@ if (apiUrl) {
   setBaseUrl(apiUrl);
 }
 
+// Include credentials (cookies) with every API request
+const originalFetch = window.fetch;
+window.fetch = (input, init) => {
+  return originalFetch(input, {
+    credentials: "include",
+    ...init,
+  });
+};
+
 createRoot(document.getElementById("root")!).render(<App />);
