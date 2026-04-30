@@ -9,9 +9,7 @@ import router from "./routes";
 import { logger } from "./lib/logger";
 
 const app: Express = express();
-
 app.set("trust proxy", 1);
-
 app.use(
   pinoHttp({
     logger,
@@ -31,7 +29,18 @@ app.use(
     },
   }),
 );
-app.use(cors());
+
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  "http://localhost:5173",
+  "http://localhost:3000",
+].filter(Boolean) as string[];
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+}));
+
 app.use(cookieParser());
 app.use(express.json({ limit: "2mb" }));
 app.use(express.urlencoded({ extended: true, limit: "2mb" }));
@@ -55,12 +64,11 @@ app.use(
     cookie: {
       httpOnly: true,
       secure: isProd,
-      sameSite: "lax",
-      maxAge: 1000 * 60 * 60 * 4, // 4 hours session timeout
+      sameSite: isProd ? "none" : "lax",
+      maxAge: 1000 * 60 * 60 * 4,
     },
   }),
 );
 
 app.use("/api", router);
-
 export default app;
