@@ -1,0 +1,6 @@
+{
+  "buildCommand": "pnpm install && pnpm --filter @workspace/mairie-jeunes-cove run build",
+  "outputDirectory": "artifacts/mairie-jeunes-cove/dist/public",
+  "installCommand": "pnpm install",
+  "framework": null
+}
