@@ -41,4 +41,6 @@ export interface SiteSettings {
   mayorMessage?: string;
   mayorPhotoUrl?: string;
   footerText?: string;
+  designerName?: string;
+  designerUrl?: string;
 }

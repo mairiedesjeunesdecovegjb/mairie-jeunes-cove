@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Calendar, User } from "lucide-react";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
+import { ImageGallery, parseImageList } from "@/components/public/ImageGallery";
 
 export default function NewsDetail() {
   const { id } = useParams<{ id: string }>();
@@ -78,6 +79,15 @@ export default function NewsDetail() {
         )}
 
         <div className="prose prose-lg max-w-none prose-headings:font-serif prose-primary" dangerouslySetInnerHTML={{ __html: news.body || "" }} />
+
+        {(() => {
+          const extras = parseImageList(news.extraImages);
+          return extras.length > 0 ? (
+            <div className="mt-12 pt-8 border-t border-border/50">
+              <ImageGallery images={extras} title="Galerie photos" />
+            </div>
+          ) : null;
+        })()}
       </div>
     </PublicLayout>
   );

@@ -23,8 +23,8 @@ export default function AdminLogin() {
   const [, setLocation] = useLocation();
   const { data: admin, isLoading: checkingAuth } = useGetCurrentAdmin({
     query: {
-      retry: false
-    }
+      retry: false,
+    } as any,
   });
   
   const loginMutation = useAdminLogin();

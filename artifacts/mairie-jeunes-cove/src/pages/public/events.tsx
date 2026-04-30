@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar as CalendarIcon, MapPin, Clock } from "lucide-react";
 import { format, isFuture, isPast } from "date-fns";
 import { fr } from "date-fns/locale";
+import { ImageGallery, parseImageList } from "@/components/public/ImageGallery";
 
 export default function Events() {
   useSEO({ title: "Agenda" });
@@ -37,9 +38,9 @@ export default function Events() {
         )}
         <h3 className="text-2xl font-bold font-serif mb-3">{event.title}</h3>
         {event.description && (
-          <p className="text-muted-foreground mb-6 line-clamp-2">{event.description}</p>
+          <p className="text-muted-foreground mb-4 line-clamp-2">{event.description}</p>
         )}
-        <div className="flex flex-wrap gap-x-6 gap-y-3 text-sm text-foreground/80 font-medium">
+        <div className="flex flex-wrap gap-x-6 gap-y-3 text-sm text-foreground/80 font-medium mb-4">
           <div className="flex items-center gap-2">
             <Clock size={16} className="text-primary" />
             <span>
@@ -54,6 +55,14 @@ export default function Events() {
             </div>
           )}
         </div>
+        {(() => {
+          const extras = parseImageList(event.extraImages);
+          return extras.length > 0 ? (
+            <div className="mt-2">
+              <ImageGallery images={extras} />
+            </div>
+          ) : null;
+        })()}
       </CardContent>
     </Card>
   );

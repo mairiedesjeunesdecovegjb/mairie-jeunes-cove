@@ -83,6 +83,8 @@ export const GetSettingsResponse = zod.object({
   mayorMessage: zod.string().optional(),
   mayorPhotoUrl: zod.string().optional(),
   footerText: zod.string().optional(),
+  designerName: zod.string().optional(),
+  designerUrl: zod.string().optional(),
 });
 
 /**
@@ -123,6 +125,8 @@ export const UpdateSettingsBody = zod.object({
   mayorMessage: zod.string().optional(),
   mayorPhotoUrl: zod.string().optional(),
   footerText: zod.string().optional(),
+  designerName: zod.string().optional(),
+  designerUrl: zod.string().optional(),
 });
 
 export const UpdateSettingsResponse = zod.object({
@@ -160,6 +164,8 @@ export const UpdateSettingsResponse = zod.object({
   mayorMessage: zod.string().optional(),
   mayorPhotoUrl: zod.string().optional(),
   footerText: zod.string().optional(),
+  designerName: zod.string().optional(),
+  designerUrl: zod.string().optional(),
 });
 
 /**
@@ -370,6 +376,7 @@ export const ListProjectsResponseItem = zod.object({
   description: zod.string().optional(),
   body: zod.string().optional(),
   imageUrl: zod.string().optional(),
+  extraImages: zod.string().optional(),
   status: zod.enum(["planned", "ongoing", "completed"]),
   startDate: zod.string().optional(),
   endDate: zod.string().optional(),
@@ -390,6 +397,7 @@ export const CreateProjectBody = zod.object({
   description: zod.string().optional(),
   body: zod.string().optional(),
   imageUrl: zod.string().optional(),
+  extraImages: zod.string().optional(),
   status: zod.enum(["planned", "ongoing", "completed"]),
   startDate: zod.string().optional(),
   endDate: zod.string().optional(),
@@ -413,6 +421,7 @@ export const GetProjectResponse = zod.object({
   description: zod.string().optional(),
   body: zod.string().optional(),
   imageUrl: zod.string().optional(),
+  extraImages: zod.string().optional(),
   status: zod.enum(["planned", "ongoing", "completed"]),
   startDate: zod.string().optional(),
   endDate: zod.string().optional(),
@@ -436,6 +445,7 @@ export const UpdateProjectBody = zod.object({
   description: zod.string().optional(),
   body: zod.string().optional(),
   imageUrl: zod.string().optional(),
+  extraImages: zod.string().optional(),
   status: zod.enum(["planned", "ongoing", "completed"]),
   startDate: zod.string().optional(),
   endDate: zod.string().optional(),
@@ -452,6 +462,7 @@ export const UpdateProjectResponse = zod.object({
   description: zod.string().optional(),
   body: zod.string().optional(),
   imageUrl: zod.string().optional(),
+  extraImages: zod.string().optional(),
   status: zod.enum(["planned", "ongoing", "completed"]),
   startDate: zod.string().optional(),
   endDate: zod.string().optional(),
@@ -479,6 +490,7 @@ export const ListNewsResponseItem = zod.object({
   excerpt: zod.string().optional(),
   body: zod.string().optional(),
   coverImageUrl: zod.string().optional(),
+  extraImages: zod.string().optional(),
   author: zod.string().optional(),
   category: zod.string().optional(),
   published: zod.boolean(),
@@ -496,6 +508,7 @@ export const CreateNewsBody = zod.object({
   excerpt: zod.string().optional(),
   body: zod.string().optional(),
   coverImageUrl: zod.string().optional(),
+  extraImages: zod.string().optional(),
   author: zod.string().optional(),
   category: zod.string().optional(),
   published: zod.boolean().optional(),
@@ -516,6 +529,7 @@ export const GetNewsResponse = zod.object({
   excerpt: zod.string().optional(),
   body: zod.string().optional(),
   coverImageUrl: zod.string().optional(),
+  extraImages: zod.string().optional(),
   author: zod.string().optional(),
   category: zod.string().optional(),
   published: zod.boolean(),
@@ -536,6 +550,7 @@ export const UpdateNewsBody = zod.object({
   excerpt: zod.string().optional(),
   body: zod.string().optional(),
   coverImageUrl: zod.string().optional(),
+  extraImages: zod.string().optional(),
   author: zod.string().optional(),
   category: zod.string().optional(),
   published: zod.boolean().optional(),
@@ -549,6 +564,7 @@ export const UpdateNewsResponse = zod.object({
   excerpt: zod.string().optional(),
   body: zod.string().optional(),
   coverImageUrl: zod.string().optional(),
+  extraImages: zod.string().optional(),
   author: zod.string().optional(),
   category: zod.string().optional(),
   published: zod.boolean(),
@@ -574,6 +590,7 @@ export const ListEventsResponseItem = zod.object({
   startsAt: zod.coerce.date(),
   endsAt: zod.coerce.date().optional(),
   imageUrl: zod.string().optional(),
+  extraImages: zod.string().optional(),
   category: zod.string().optional(),
   featured: zod.boolean().optional(),
 });
@@ -589,6 +606,7 @@ export const CreateEventBody = zod.object({
   startsAt: zod.coerce.date(),
   endsAt: zod.coerce.date().optional(),
   imageUrl: zod.string().optional(),
+  extraImages: zod.string().optional(),
   category: zod.string().optional(),
   featured: zod.boolean().optional(),
 });
@@ -604,6 +622,7 @@ export const ListUpcomingEventsResponseItem = zod.object({
   startsAt: zod.coerce.date(),
   endsAt: zod.coerce.date().optional(),
   imageUrl: zod.string().optional(),
+  extraImages: zod.string().optional(),
   category: zod.string().optional(),
   featured: zod.boolean().optional(),
 });
@@ -625,6 +644,7 @@ export const UpdateEventBody = zod.object({
   startsAt: zod.coerce.date(),
   endsAt: zod.coerce.date().optional(),
   imageUrl: zod.string().optional(),
+  extraImages: zod.string().optional(),
   category: zod.string().optional(),
   featured: zod.boolean().optional(),
 });
@@ -637,6 +657,7 @@ export const UpdateEventResponse = zod.object({
   startsAt: zod.coerce.date(),
   endsAt: zod.coerce.date().optional(),
   imageUrl: zod.string().optional(),
+  extraImages: zod.string().optional(),
   category: zod.string().optional(),
   featured: zod.boolean().optional(),
 });

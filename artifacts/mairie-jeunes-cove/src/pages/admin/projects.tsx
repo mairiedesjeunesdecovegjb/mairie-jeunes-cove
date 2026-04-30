@@ -22,6 +22,7 @@ const projectSchema = z.object({
   description: z.string().optional(),
   body: z.string().optional(),
   imageUrl: z.string().optional(),
+  extraImages: z.string().optional(),
   status: z.enum(["planned", "ongoing", "completed"]),
   startDate: z.string().optional().or(z.literal("")),
   endDate: z.string().optional().or(z.literal("")),
@@ -49,10 +50,10 @@ export default function ProjectsAdmin() {
   const handleOpenDialog = (item?: any) => {
     if (item) {
       setEditingItem(item);
-      form.reset({ ...item, body: item.body || "", description: item.description || "", startDate: item.startDate || "", endDate: item.endDate || "", progress: item.progress || 0 });
+      form.reset({ ...item, body: item.body || "", description: item.description || "", startDate: item.startDate || "", endDate: item.endDate || "", progress: item.progress || 0, extraImages: item.extraImages || "" });
     } else {
       setEditingItem(null);
-      form.reset({ title: "", category: "", description: "", body: "", imageUrl: "", status: "planned", startDate: "", endDate: "", location: "", budget: "", progress: 0, featured: false });
+      form.reset({ title: "", category: "", description: "", body: "", imageUrl: "", extraImages: "", status: "planned", startDate: "", endDate: "", location: "", budget: "", progress: 0, featured: false });
     }
     setIsDialogOpen(true);
   };
@@ -103,7 +104,14 @@ export default function ProjectsAdmin() {
                   <FormItem><FormLabel>Catégorie</FormLabel><FormControl><Input {...field} /></FormControl></FormItem>
                 )} />
                 <FormField control={form.control} name="imageUrl" render={({ field }) => (
-                  <FormItem className="col-span-2"><FormLabel>URL de l'image</FormLabel><FormControl><Input {...field} /></FormControl></FormItem>
+                  <FormItem className="col-span-2"><FormLabel>Image principale (URL)</FormLabel><FormControl><Input {...field} /></FormControl></FormItem>
+                )} />
+                <FormField control={form.control} name="extraImages" render={({ field }) => (
+                  <FormItem className="col-span-2">
+                    <FormLabel>Images supplémentaires (galerie)</FormLabel>
+                    <FormControl><Textarea placeholder="Une URL d'image par ligne" className="h-24 font-mono text-xs" {...field} /></FormControl>
+                    <p className="text-xs text-muted-foreground mt-1">Collez plusieurs URLs d'images, une par ligne.</p>
+                  </FormItem>
                 )} />
                 <FormField control={form.control} name="description" render={({ field }) => (
                   <FormItem className="col-span-2"><FormLabel>Résumé</FormLabel><FormControl><Textarea {...field} /></FormControl></FormItem>

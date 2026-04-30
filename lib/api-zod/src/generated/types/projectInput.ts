@@ -13,6 +13,7 @@ export interface ProjectInput {
   description?: string;
   body?: string;
   imageUrl?: string;
+  extraImages?: string;
   status: ProjectInputStatus;
   startDate?: string;
   endDate?: string;

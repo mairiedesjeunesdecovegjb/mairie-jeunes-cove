@@ -14,6 +14,7 @@ export interface Project {
   description?: string;
   body?: string;
   imageUrl?: string;
+  extraImages?: string;
   status: ProjectStatus;
   startDate?: string;
   endDate?: string;

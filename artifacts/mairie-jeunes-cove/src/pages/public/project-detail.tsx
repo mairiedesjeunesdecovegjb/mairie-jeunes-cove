@@ -8,6 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import { ArrowLeft, MapPin, Calendar, Wallet } from "lucide-react";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
+import { ImageGallery, parseImageList } from "@/components/public/ImageGallery";
 
 export default function ProjectDetail() {
   const { id } = useParams<{ id: string }>();
@@ -68,6 +69,15 @@ export default function ProjectDetail() {
               </p>
             )}
             <div className="prose prose-lg max-w-none prose-headings:font-serif prose-primary" dangerouslySetInnerHTML={{ __html: project.body || "" }} />
+
+            {(() => {
+              const extras = parseImageList(project.extraImages);
+              return extras.length > 0 ? (
+                <div className="mt-12">
+                  <ImageGallery images={extras} title="Galerie du projet" />
+                </div>
+              ) : null;
+            })()}
           </div>
           
           <div className="lg:col-span-1">

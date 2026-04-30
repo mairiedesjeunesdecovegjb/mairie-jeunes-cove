@@ -13,6 +13,7 @@ export interface NewsArticle {
   excerpt?: string;
   body?: string;
   coverImageUrl?: string;
+  extraImages?: string;
   author?: string;
   category?: string;
   published: boolean;

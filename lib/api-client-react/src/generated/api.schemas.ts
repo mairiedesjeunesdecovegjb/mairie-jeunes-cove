@@ -64,6 +64,8 @@ export interface SiteSettings {
   mayorMessage?: string;
   mayorPhotoUrl?: string;
   footerText?: string;
+  designerName?: string;
+  designerUrl?: string;
 }
 
 export interface SettingsUpdateInput {
@@ -101,6 +103,8 @@ export interface SettingsUpdateInput {
   mayorMessage?: string;
   mayorPhotoUrl?: string;
   footerText?: string;
+  designerName?: string;
+  designerUrl?: string;
 }
 
 export interface HeroSlide {
@@ -186,6 +190,7 @@ export interface Project {
   description?: string;
   body?: string;
   imageUrl?: string;
+  extraImages?: string;
   status: ProjectStatus;
   startDate?: string;
   endDate?: string;
@@ -211,6 +216,7 @@ export interface ProjectInput {
   description?: string;
   body?: string;
   imageUrl?: string;
+  extraImages?: string;
   status: ProjectInputStatus;
   startDate?: string;
   endDate?: string;
@@ -227,6 +233,7 @@ export interface NewsArticle {
   excerpt?: string;
   body?: string;
   coverImageUrl?: string;
+  extraImages?: string;
   author?: string;
   category?: string;
   published: boolean;
@@ -240,6 +247,7 @@ export interface NewsInput {
   excerpt?: string;
   body?: string;
   coverImageUrl?: string;
+  extraImages?: string;
   author?: string;
   category?: string;
   published?: boolean;
@@ -254,6 +262,7 @@ export interface EventItem {
   startsAt: string;
   endsAt?: string;
   imageUrl?: string;
+  extraImages?: string;
   category?: string;
   featured?: boolean;
 }
@@ -265,6 +274,7 @@ export interface EventInput {
   startsAt: string;
   endsAt?: string;
   imageUrl?: string;
+  extraImages?: string;
   category?: string;
   featured?: boolean;
 }

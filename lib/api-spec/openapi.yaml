@@ -925,6 +925,8 @@ components:
         mayorMessage: { type: string }
         mayorPhotoUrl: { type: string }
         footerText: { type: string }
+        designerName: { type: string }
+        designerUrl: { type: string }
       required:
         - siteName
         - tagline
@@ -973,6 +975,8 @@ components:
         mayorMessage: { type: string }
         mayorPhotoUrl: { type: string }
         footerText: { type: string }
+        designerName: { type: string }
+        designerUrl: { type: string }
 
     HeroSlide:
       type: object
@@ -1062,6 +1066,7 @@ components:
         description: { type: string }
         body: { type: string }
         imageUrl: { type: string }
+        extraImages: { type: string }
         status: { type: string, enum: [planned, ongoing, completed] }
         startDate: { type: string }
         endDate: { type: string }
@@ -1080,6 +1085,7 @@ components:
         description: { type: string }
         body: { type: string }
         imageUrl: { type: string }
+        extraImages: { type: string }
         status: { type: string, enum: [planned, ongoing, completed] }
         startDate: { type: string }
         endDate: { type: string }
@@ -1098,6 +1104,7 @@ components:
         excerpt: { type: string }
         body: { type: string }
         coverImageUrl: { type: string }
+        extraImages: { type: string }
         author: { type: string }
         category: { type: string }
         published: { type: boolean }
@@ -1113,6 +1120,7 @@ components:
         excerpt: { type: string }
         body: { type: string }
         coverImageUrl: { type: string }
+        extraImages: { type: string }
         author: { type: string }
         category: { type: string }
         published: { type: boolean }
@@ -1129,6 +1137,7 @@ components:
         startsAt: { type: string, format: date-time }
         endsAt: { type: string, format: date-time }
         imageUrl: { type: string }
+        extraImages: { type: string }
         category: { type: string }
         featured: { type: boolean }
       required: [id, title, startsAt]
@@ -1142,6 +1151,7 @@ components:
         startsAt: { type: string, format: date-time }
         endsAt: { type: string, format: date-time }
         imageUrl: { type: string }
+        extraImages: { type: string }
         category: { type: string }
         featured: { type: boolean }
       required: [title, startsAt]

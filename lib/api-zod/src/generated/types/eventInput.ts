@@ -13,6 +13,7 @@ export interface EventInput {
   startsAt: Date;
   endsAt?: Date;
   imageUrl?: string;
+  extraImages?: string;
   category?: string;
   featured?: boolean;
 }

@@ -251,7 +251,20 @@ const DEFAULT_OPPORTUNITIES = [
 export async function seedDefaults(): Promise<void> {
   try {
     if (await isEmpty(settingsTable)) {
-      await db.insert(settingsTable).values({});
+      await db.insert(settingsTable).values({
+        mayorName: "Étienne K. AGOSSOU",
+        mayorTitle: "Maire des Jeunes de Covè",
+        mayorMessage:
+          "Chères Covéennes, chers Covéens, la Mairie des Jeunes incarne notre volonté commune de bâtir une commune solidaire, dynamique et tournée vers l'avenir. Aux côtés des autorités locales, des partenaires et de la population, nous mobilisons l'énergie de notre jeunesse autour de projets concrets en éducation, environnement, santé et entrepreneuriat. Ensemble, faisons de Covè un modèle de gouvernance participative et d'engagement citoyen.",
+        mayorPhotoUrl: "/seed/mayor.png",
+        whatsappNumber: "+22961000000",
+        contactPhone: "+229 61 00 00 00",
+        contactEmail: "contact@mairiejeunescove.bj",
+        contactAddress: "Hôtel de Ville, Covè, République du Bénin",
+        facebookUrl: "https://facebook.com/mairiejeunescove",
+        designerName: "Builvision Group",
+        designerUrl: "https://builvision.com",
+      });
       logger.info("Seeded default settings");
     }
     if (await isEmpty(pagesTable)) {

@@ -21,6 +21,7 @@ const schema = z.object({
   startsAt: z.string().min(1),
   endsAt: z.string().optional().or(z.literal("")),
   imageUrl: z.string().optional(),
+  extraImages: z.string().optional(),
   category: z.string().optional(),
 });
 
@@ -41,10 +42,10 @@ export default function EventsAdmin() {
   const handleOpenDialog = (item?: any) => {
     if (item) {
       setEditingItem(item);
-      form.reset({ ...item, endsAt: item.endsAt || "" });
+      form.reset({ ...item, endsAt: item.endsAt || "", extraImages: item.extraImages || "" });
     } else {
       setEditingItem(null);
-      form.reset({ title: "", startsAt: new Date().toISOString().slice(0,16), endsAt: "" });
+      form.reset({ title: "", startsAt: new Date().toISOString().slice(0,16), endsAt: "", extraImages: "" });
     }
     setIsDialogOpen(true);
   };
@@ -92,7 +93,14 @@ export default function EventsAdmin() {
                 )} />
               </div>
               <FormField control={form.control} name="imageUrl" render={({ field }) => (
-                <FormItem><FormLabel>Image URL</FormLabel><FormControl><Input {...field} /></FormControl></FormItem>
+                <FormItem><FormLabel>Image principale (URL)</FormLabel><FormControl><Input {...field} /></FormControl></FormItem>
+              )} />
+              <FormField control={form.control} name="extraImages" render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Images supplémentaires (galerie)</FormLabel>
+                  <FormControl><Textarea placeholder="Une URL d'image par ligne" className="h-24 font-mono text-xs" {...field} /></FormControl>
+                  <p className="text-xs text-muted-foreground mt-1">Collez plusieurs URLs d'images, une par ligne.</p>
+                </FormItem>
               )} />
               <FormField control={form.control} name="description" render={({ field }) => (
                 <FormItem><FormLabel>Description</FormLabel><FormControl><Textarea {...field} /></FormControl></FormItem>

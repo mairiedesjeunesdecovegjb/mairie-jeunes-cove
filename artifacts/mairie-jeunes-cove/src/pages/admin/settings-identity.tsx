@@ -30,6 +30,9 @@ const schema = z.object({
   statActivitiesLabel: z.string().optional(),
   statProjectsLabel: z.string().optional(),
   statPartnersLabel: z.string().optional(),
+  designerName: z.string().optional(),
+  designerUrl: z.string().optional(),
+  footerText: z.string().optional(),
 });
 
 export default function SettingsIdentity() {
@@ -135,6 +138,24 @@ export default function SettingsIdentity() {
                   <FormItem><FormLabel>Label 4</FormLabel><FormControl><Input {...field} /></FormControl></FormItem>
                 )} />
               </div>
+            </div>
+
+            <div>
+              <h2 className="text-lg font-bold mb-4 border-b pb-2">Pied de page & Concepteur</h2>
+              <div className="grid grid-cols-2 gap-4">
+                <FormField control={form.control} name="designerName" render={({ field }) => (
+                  <FormItem><FormLabel>Nom du concepteur</FormLabel><FormControl><Input {...field} /></FormControl></FormItem>
+                )} />
+                <FormField control={form.control} name="designerUrl" render={({ field }) => (
+                  <FormItem><FormLabel>Site du concepteur (URL)</FormLabel><FormControl><Input placeholder="https://..." {...field} /></FormControl></FormItem>
+                )} />
+                <FormField control={form.control} name="footerText" render={({ field }) => (
+                  <FormItem className="col-span-2"><FormLabel>Texte du pied de page</FormLabel><FormControl><Textarea className="h-20" {...field} /></FormControl></FormItem>
+                )} />
+              </div>
+              <p className="text-xs text-muted-foreground mt-2">
+                Astuce : le nom du concepteur tel qu'il apparaît dans le texte du pied de page sera transformé en lien cliquable vers le site du concepteur.
+              </p>
             </div>
 
             <Button type="submit" size="lg">Sauvegarder</Button>

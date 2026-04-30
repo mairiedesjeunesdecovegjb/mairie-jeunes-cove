@@ -41,4 +41,6 @@ export interface SettingsUpdateInput {
   mayorMessage?: string;
   mayorPhotoUrl?: string;
   footerText?: string;
+  designerName?: string;
+  designerUrl?: string;
 }

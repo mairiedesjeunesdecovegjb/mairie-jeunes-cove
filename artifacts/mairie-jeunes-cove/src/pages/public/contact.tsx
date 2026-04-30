@@ -6,7 +6,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { MapPin, Phone, Mail } from "lucide-react";
+import {
+  MapPin,
+  Phone,
+  Mail,
+  MessageCircle,
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+  Youtube,
+  Clock,
+} from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -51,6 +62,16 @@ export default function Contact() {
     });
   };
 
+  const whatsappDigits = settings?.whatsappNumber?.replace(/[^0-9]/g, "") || "";
+
+  const socials = [
+    { url: settings?.facebookUrl, label: "Facebook", Icon: Facebook },
+    { url: settings?.twitterUrl, label: "Twitter / X", Icon: Twitter },
+    { url: settings?.instagramUrl, label: "Instagram", Icon: Instagram },
+    { url: settings?.linkedinUrl, label: "LinkedIn", Icon: Linkedin },
+    { url: settings?.youtubeUrl, label: "YouTube", Icon: Youtube },
+  ].filter((s) => !!s.url);
+
   return (
     <PublicLayout>
       <div className="bg-muted py-16">
@@ -61,18 +82,18 @@ export default function Contact() {
           </p>
         </div>
       </div>
-      
+
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {/* Contact Info & Map */}
+          {/* Contact Info */}
           <div className="space-y-8">
             <div>
               <h2 className="text-2xl font-bold font-serif mb-6">Nos coordonnées</h2>
-              <div className="space-y-6">
+              <div className="space-y-5">
                 {settings?.contactAddress && (
                   <div className="flex items-start gap-4">
                     <div className="bg-primary/10 p-3 rounded-full text-primary shrink-0">
-                      <MapPin size={24} />
+                      <MapPin size={22} />
                     </div>
                     <div>
                       <h3 className="font-bold text-lg mb-1">Adresse</h3>
@@ -80,44 +101,106 @@ export default function Contact() {
                     </div>
                   </div>
                 )}
-                
+
                 {settings?.contactPhone && (
                   <div className="flex items-start gap-4">
                     <div className="bg-primary/10 p-3 rounded-full text-primary shrink-0">
-                      <Phone size={24} />
+                      <Phone size={22} />
                     </div>
                     <div>
                       <h3 className="font-bold text-lg mb-1">Téléphone</h3>
-                      <a href={`tel:${settings.contactPhone}`} className="text-muted-foreground hover:text-primary transition-colors">{settings.contactPhone}</a>
-                      {settings.whatsappNumber && (
-                        <div className="mt-1">
-                          <a href={`https://wa.me/${settings.whatsappNumber.replace(/[^0-9]/g, '')}`} target="_blank" rel="noreferrer" className="text-green-600 hover:underline text-sm font-medium">
-                            Discuter sur WhatsApp
-                          </a>
-                        </div>
-                      )}
+                      <a
+                        href={`tel:${settings.contactPhone}`}
+                        className="text-muted-foreground hover:text-primary transition-colors"
+                      >
+                        {settings.contactPhone}
+                      </a>
                     </div>
                   </div>
                 )}
-                
+
+                {whatsappDigits && (
+                  <div className="flex items-start gap-4">
+                    <div className="bg-[#25D366]/10 p-3 rounded-full text-[#25D366] shrink-0">
+                      <MessageCircle size={22} />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-bold text-lg mb-1">WhatsApp</h3>
+                      <p className="text-muted-foreground mb-3">{settings?.whatsappNumber}</p>
+                      <Button
+                        asChild
+                        className="bg-[#25D366] hover:bg-[#1ebe5d] text-white rounded-full"
+                      >
+                        <a
+                          href={`https://wa.me/${whatsappDigits}?text=${encodeURIComponent(
+                            `Bonjour, je vous contacte depuis le site de la ${settings?.siteName || "Mairie des Jeunes de Covè"}.`
+                          )}`}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <MessageCircle className="w-4 h-4 mr-2" /> Discuter sur WhatsApp
+                        </a>
+                      </Button>
+                    </div>
+                  </div>
+                )}
+
                 {settings?.contactEmail && (
                   <div className="flex items-start gap-4">
                     <div className="bg-primary/10 p-3 rounded-full text-primary shrink-0">
-                      <Mail size={24} />
+                      <Mail size={22} />
                     </div>
                     <div>
                       <h3 className="font-bold text-lg mb-1">Email</h3>
-                      <a href={`mailto:${settings.contactEmail}`} className="text-muted-foreground hover:text-primary transition-colors">{settings.contactEmail}</a>
+                      <a
+                        href={`mailto:${settings.contactEmail}`}
+                        className="text-muted-foreground hover:text-primary transition-colors break-all"
+                      >
+                        {settings.contactEmail}
+                      </a>
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex items-start gap-4">
+                  <div className="bg-primary/10 p-3 rounded-full text-primary shrink-0">
+                    <Clock size={22} />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg mb-1">Horaires d'ouverture</h3>
+                    <p className="text-muted-foreground">Lundi – Vendredi : 8h00 – 17h00</p>
+                    <p className="text-muted-foreground">Samedi : 8h00 – 12h00</p>
+                  </div>
+                </div>
+
+                {socials.length > 0 && (
+                  <div className="pt-2">
+                    <h3 className="font-bold text-lg mb-3">Suivez-nous</h3>
+                    <div className="flex flex-wrap gap-3">
+                      {socials.map(({ url, label, Icon }) => (
+                        <a
+                          key={label}
+                          href={url!}
+                          target="_blank"
+                          rel="noreferrer"
+                          aria-label={label}
+                          className="bg-primary/10 hover:bg-primary hover:text-white text-primary p-3 rounded-full transition-colors"
+                        >
+                          <Icon size={20} />
+                        </a>
+                      ))}
                     </div>
                   </div>
                 )}
               </div>
             </div>
-            
+
             <div className="bg-muted rounded-xl overflow-hidden h-64 relative border border-border/50">
-              {/* Fake map for UI purposes */}
               <div className="absolute inset-0 bg-blue-50">
-                <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(#cbd5e1 2px, transparent 2px)', backgroundSize: '30px 30px' }}></div>
+                <div
+                  className="absolute inset-0 opacity-20"
+                  style={{ backgroundImage: 'radial-gradient(#cbd5e1 2px, transparent 2px)', backgroundSize: '30px 30px' }}
+                />
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
                   <MapPin size={48} className="text-primary drop-shadow-md" />
                   <div className="bg-white px-4 py-2 rounded-md shadow-md mt-2 font-medium text-sm">
@@ -147,7 +230,7 @@ export default function Contact() {
                       </FormItem>
                     )}
                   />
-                  
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <FormField
                       control={form.control}
@@ -176,7 +259,7 @@ export default function Contact() {
                       )}
                     />
                   </div>
-                  
+
                   <FormField
                     control={form.control}
                     name="subject"
@@ -190,7 +273,7 @@ export default function Contact() {
                       </FormItem>
                     )}
                   />
-                  
+
                   <FormField
                     control={form.control}
                     name="message"
@@ -204,7 +287,7 @@ export default function Contact() {
                       </FormItem>
                     )}
                   />
-                  
+
                   <Button type="submit" size="lg" className="w-full" disabled={submitContact.isPending}>
                     {submitContact.isPending ? "Envoi en cours..." : "Envoyer le message"}
                   </Button>

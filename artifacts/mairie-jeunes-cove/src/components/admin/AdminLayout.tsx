@@ -15,8 +15,8 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
   
   const { data: admin, isLoading, isError } = useGetCurrentAdmin({
     query: {
-      retry: false
-    }
+      retry: false,
+    } as any,
   });
 
   const logoutMutation = useAdminLogout();
@@ -93,7 +93,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
               }
               
               const Icon = item.icon!;
-              const isActive = location === item.href || (item.href !== '/secure-admin-cove' && location.startsWith(item.href));
+              const isActive = location === item.href || (item.href !== '/secure-admin-cove' && location.startsWith(item.href as string));
               
               return (
                 <Link key={item.href} href={item.href!}>
