@@ -7,6 +7,7 @@ export const newsTable = pgTable("news", {
   excerpt: text("excerpt"),
   body: text("body"),
   coverImageUrl: text("cover_image_url"),
+  extraImages: text("extra_images"),
   author: text("author"),
   category: text("category"),
   published: boolean("published").notNull().default(true),

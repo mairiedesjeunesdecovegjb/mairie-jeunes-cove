@@ -7,6 +7,7 @@ export const projectsTable = pgTable("projects", {
   description: text("description"),
   body: text("body"),
   imageUrl: text("image_url"),
+  extraImages: text("extra_images"),
   status: text("status").notNull().default("planned"),
   startDate: text("start_date"),
   endDate: text("end_date"),

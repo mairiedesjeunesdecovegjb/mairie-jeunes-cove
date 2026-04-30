@@ -44,6 +44,8 @@ export const settingsTable = pgTable("settings", {
     .default(
       "© 2026 Mairie des Jeunes de Covè - Tous droits réservés, Conçu par Builvision Group",
     ),
+  designerName: text("designer_name").notNull().default("Builvision Group"),
+  designerUrl: text("designer_url").notNull().default("https://builvision.com"),
 });
 
 export type Settings = typeof settingsTable.$inferSelect;

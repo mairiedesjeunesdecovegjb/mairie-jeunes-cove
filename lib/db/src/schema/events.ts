@@ -8,6 +8,7 @@ export const eventsTable = pgTable("events", {
   startsAt: timestamp("starts_at", { withTimezone: true }).notNull(),
   endsAt: timestamp("ends_at", { withTimezone: true }),
   imageUrl: text("image_url"),
+  extraImages: text("extra_images"),
   category: text("category"),
   featured: boolean("featured").notNull().default(false),
 });
