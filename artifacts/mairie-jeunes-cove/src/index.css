@@ -97,7 +97,7 @@
   --popover-border: 214 32% 91%;
 
   /* Defaults if settings fail to load: Vert moderne (153 50% 36%), Bleu élégant (215 65% 30%), Blanc, Or (45 93% 47%) */
-  --primary: 153 50% 36%;
+  --primary: 21 90% 48%;
   --primary-foreground: 0 0% 100%;
   
   --secondary: 215 65% 30%;
@@ -166,7 +166,7 @@
   --popover-foreground: 210 40% 98%;
   --popover-border: 217.2 32.6% 17.5%;
   
-  --primary: 153 50% 46%;
+  --primary: 21 90% 55%;
   --primary-foreground: 0 0% 100%;
   --secondary: 215 65% 40%;
   --secondary-foreground: 0 0% 100%;

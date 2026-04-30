@@ -5,14 +5,18 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, MapPin, Building, ArrowRight } from "lucide-react";
-import { format, isPast } from "date-fns";
-import { fr } from "date-fns/locale";
 
 export default function Opportunities() {
   useSEO({ title: "Opportunités jeunes" });
   const { data: opportunities, isLoading } = useListOpportunities();
 
   const publishedOpps = opportunities?.filter(o => o.published) || [];
+
+  const parseDeadline = (s?: string | null): Date | null => {
+    if (!s) return null;
+    const d = new Date(s);
+    return isNaN(d.getTime()) ? null : d;
+  };
 
   return (
     <PublicLayout>
@@ -34,7 +38,8 @@ export default function Opportunities() {
         ) : (
           <div className="space-y-6">
             {publishedOpps.map((opp) => {
-              const deadlinePassed = opp.deadline && isPast(new Date(opp.deadline));
+              const deadlineDate = parseDeadline(opp.deadline);
+              const deadlinePassed = !!deadlineDate && deadlineDate.getTime() < Date.now();
               
               return (
                 <Card key={opp.id} className={`overflow-hidden hover:shadow-md transition-shadow ${deadlinePassed ? 'opacity-70' : ''}`}>
@@ -72,7 +77,7 @@ export default function Opportunities() {
                           <div className="flex items-center gap-2 text-foreground/80">
                             <Calendar size={16} className={deadlinePassed ? "text-destructive" : "text-primary"} />
                             <span className={deadlinePassed ? "text-destructive" : ""}>
-                              Date limite: {format(new Date(opp.deadline), 'd MMM yyyy', { locale: fr })}
+                              Date limite : {opp.deadline}
                             </span>
                           </div>
                         )}

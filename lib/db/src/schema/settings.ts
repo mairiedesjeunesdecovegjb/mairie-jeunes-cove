@@ -8,7 +8,7 @@ export const settingsTable = pgTable("settings", {
     .default("Jeunesse engagée pour Covè"),
   logoUrl: text("logo_url"),
   faviconUrl: text("favicon_url"),
-  primaryColor: text("primary_color").notNull().default("#0F7A3E"),
+  primaryColor: text("primary_color").notNull().default("#EA580C"),
   secondaryColor: text("secondary_color").notNull().default("#1E3A8A"),
   accentColor: text("accent_color").notNull().default("#F5C518"),
   contactEmail: text("contact_email"),
